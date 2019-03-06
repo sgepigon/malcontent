@@ -56,4 +56,4 @@
     (cond (standard-header? browser)   "Content-Security-Policy"
           (gecko-header?    browser)   "X-Content-Security-Policy"
           (webkit-header?   browser)   "X-Webkit-CSP"
-          :else "blah")))
+          :else "Content-Security-Policy")))
