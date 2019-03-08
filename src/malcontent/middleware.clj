@@ -14,5 +14,3 @@
                  (make-policy (if config-path
                                 (load-policy config-path)
                                 (load-policy)))))))))
-                              
-

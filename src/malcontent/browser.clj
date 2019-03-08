@@ -37,7 +37,8 @@
     (or (and (= "FIREFOX" browser-family)
              (<= browser-version 23))
         (and (= "IE" browser-family)
-             (<= browser-version 10)))))
+             (<= browser-version 10))
+        (= "MOZILLA" browser-family)))) ; IE 11 spoofs Mozilla!
 
 (defn webkit-header? [browser]
   (let [browser-family  (browser :family)
