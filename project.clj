@@ -1,4 +1,4 @@
-(defproject tech.droit/malcontent "0.2.0"
+(defproject tech.droit/malcontent "0.2.1"
   :description "Ring middleware for HTTP Content Security Policy"
   :url "http://github.com/droitfintech/malcontent"
   :license {:name "Apache License, Version 2.0"
