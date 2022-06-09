@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 - [Unreleased]
+## 0.2.0 - 2022-06-09
 
 ### Removed
 - SNAPSHOT project; lint; upgrade and remove unused `ring` dependency [#3](https://github.com/droitfintech/malcontent/pull/3)
