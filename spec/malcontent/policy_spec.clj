@@ -1,6 +1,10 @@
 (ns malcontent.policy-spec
-  (:require [speclj.core :refer :all]
-            [malcontent.policy :refer :all]))
+  (:require
+   [clojure.string :as str]
+   [malcontent.policy :refer [get-directives get-sources load-policy
+                              make-directive make-policy make-source-directive
+                              map-join source-values to-source]]
+   [speclj.core :refer [describe it should should=]]))
 
 (def clj-policy {:sources {:script ["https://apis.google.com"
                                     "https://platform.twitter.com"]
@@ -43,6 +47,14 @@
                              "'allow-top-navigation'; "
                              "report-uri /some/report-uri"))
 
+(defn- policy=
+  "Checks two policy strings `expected` and `actual` are equal, irrespective of
+  the order."
+  [expected actual]
+  (letfn [(normalize [s]
+            (into #{} (map str/trim) (str/split s #";")))]
+    (= (normalize expected) (normalize actual))))
+
 (describe "Constructing policies"
 
           (it "converts keywords to source values"
@@ -74,29 +86,29 @@
                        (make-directive [:sandbox :allow-forms])))
           
           (it "converts the sources map into a policy string"
-              (should= source-policy
-                       (get-sources (clj-policy :sources))))
+              (should (policy= source-policy
+                               (get-sources (clj-policy :sources)))))
 
           (it "converts the remaining policy into a policy string"
-              (should= "sandbox 'allow-forms'; report-uri /some-report-uri"
-                       (get-directives (dissoc clj-policy :sources))))
+              (should (policy= "sandbox 'allow-forms'; report-uri /some-report-uri"
+                               (get-directives (dissoc clj-policy :sources)))))
 
           (it "converts a full policy map into a policy string"
-              (should= simple-http-policy
-                       (make-policy clj-policy)))
+              (should (policy= simple-http-policy
+                               (make-policy clj-policy))))
 
           (it "converts a policy map without sources into a valid policy string"
-              (should= "sandbox 'allow-forms'; report-uri /some-report-uri"
-                       (make-policy (dissoc clj-policy :sources))))
+              (should (policy= "sandbox 'allow-forms'; report-uri /some-report-uri"
+                               (make-policy (dissoc clj-policy :sources)))))
 
           (it "converts a policy map without directives into a valid policy string"
-              (should= (get-sources (clj-policy :sources))
-                       (make-policy (dissoc clj-policy :sandbox :report-uri))))
+              (should (policy= (get-sources (clj-policy :sources))
+                               (make-policy (dissoc clj-policy :sandbox :report-uri)))))
 
           (it "converts policy maps with special directives into valid policy strings"
-              (should= tricky-http-policy
-                       (make-policy tricky-clj-policy)))
+              (should (policy= tricky-http-policy
+                               (make-policy tricky-clj-policy))))
 
           (it "loads policy maps from the default location"
-              (should= tricky-http-policy
-                       (make-policy (load-policy)))))
+              (should (policy= tricky-http-policy
+                               (make-policy (load-policy))))))

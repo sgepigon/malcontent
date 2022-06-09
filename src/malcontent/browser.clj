@@ -1,6 +1,6 @@
 (ns malcontent.browser
-  (:import [net.sf.uadetector UserAgent UserAgentStringParser]
-           [net.sf.uadetector.service UADetectorServiceFactory]))
+  (:import
+   (net.sf.uadetector.service UADetectorServiceFactory)))
 
 (defn parse-user-agent-string [user-agent-string]
   (let [parser (UADetectorServiceFactory/getResourceModuleParser)
@@ -10,7 +10,7 @@
         (assoc :name (.getName user-agent))
         (assoc :version (vec (map (fn [number-str]
                                     (try (Integer/parseInt number-str)
-                                         (catch NumberFormatException e 0)))
+                                         (catch NumberFormatException _ 0)))
                                   (.getGroups (.getVersionNumber user-agent))))))))
 
 (defn get-user-agent [request]

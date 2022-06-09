@@ -17,32 +17,38 @@ Malcontent looks for a policy file at `config/security_policy.clj` by default (b
 
 __Social media widgets:__
 
-    {:sources {:script ["https://apis.google.com"
-                        "https://platform.twitter.com"]
-               :frame  ["https://plusone.google.com"
-                        "https://facebook.com"
-                        "https://platform.twitter.com"]}}
+```clj
+{:sources {:script ["https://apis.google.com"
+                    "https://platform.twitter.com"]
+           :frame  ["https://plusone.google.com"
+                    "https://facebook.com"
+                    "https://platform.twitter.com"]}}
+```
 
 __Lockdown:__
 
-    {:sources {:default :none
-               :script  "https://cdn.mybank.net"
-               :style   "https://cdn.mybank.net"
-               :img     "https://cdn.mybank.net"
-               :connect "https://api.mybank.com"
-               :frame   :self}}
+```clj
+{:sources {:default :none
+           :script  "https://cdn.mybank.net"
+           :style   "https://cdn.mybank.net"
+           :img     "https://cdn.mybank.net"
+           :connect "https://api.mybank.com"
+           :frame   :self}}
+```
 
 __SSL Only__:
 
-    {:sources {:default "https:"
-               :script  ["https:" :unsafe-inline]
-               :style   ["https:" :unsafe-inline]}}
+```clj
+{:sources {:default "https:"
+           :script  ["https:" :unsafe-inline]
+           :style   ["https:" :unsafe-inline]}}
+```
 
 In addition to sources, policy maps may include the `:sandbox` and
 `:report-uri` directives. Sources may be specified as strings,
 keywords, or vectors. Here's an example with every directive enabled:
 
-```
+```clj
 {:sources {:default :self
            :script ["https://trustedscripts.com" :unsafe-eval]
            :style ["*.styles.example.com"
@@ -64,26 +70,32 @@ Mapping [CSP directives](http://content-security-policy.com/) to Clojure values 
 
 To include the policy in outgoing responses, just include `add-content-security-policy` as a middleware wrapper:
 
-    (ns my-great-webapp.core
-      (:require [malcontent.core :refer [add-content-security-policy]]))
+```clj
+(ns my-great-webapp.core
+  (:require [malcontent.core :refer [add-content-security-policy]]))
 
-    (defroutes app-routes
-      (GET "/" [] my-great-request-handler))
-      
-    (def app (-> routes
-                 (add-content-security-policy)))
+(defroutes app-routes
+  (GET "/" [] my-great-request-handler))
+  
+(def app (-> routes
+             (add-content-security-policy)))
+```
 
 If you'd prefer to load the policy from somewhere besides the default location, pass it as a keyword argument:
 
-    (def app (-> routes
-                 (add-content-security-policy :config-path "resources/policy.clj")))
+```clj
+(def app (-> routes
+             (add-content-security-policy :config-path "resources/policy.clj")))
+```
 
 For help writing a good security policy, check out the resources below.
                  
 ## Installation
 Include malcontent as a dependency in `project.clj`:
 
-    [malcontent "0.1.0-SNAPSHOT"]
+```clj
+[malcontent "0.2.0-SNAPSHOT"]
+```
 
 ## Content Security Policy Resources
 - [CSP Playground](http://www.cspplayground.com/) &mdash; interactive examples of common CSP violations and a policy validator.

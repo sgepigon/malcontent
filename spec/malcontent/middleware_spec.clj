@@ -1,6 +1,6 @@
 (ns malcontent.middleware-spec
-  (:require [speclj.core :refer :all]
-            [malcontent.middleware :refer :all]
+  (:require [speclj.core :refer [describe it should=]]
+            [malcontent.middleware :refer [add-content-security-policy]]
             [malcontent.policy-spec :refer [tricky-http-policy]]))
 
 (def user-agent-string (str "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) "

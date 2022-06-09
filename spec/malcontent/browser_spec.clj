@@ -1,7 +1,6 @@
 (ns malcontent.browser-spec
-  (:require [speclj.core :refer :all]
-            [malcontent.browser :refer :all]
-            [malcontent.policy-spec :refer [tricky-http-policy]]))
+  (:require [speclj.core :refer [describe it should should=]]
+            [malcontent.browser :refer [gecko-header? get-user-agent parse-user-agent-string select-header standard-header? webkit-header?]]))
 
 (def empty-headers {:headers {}})
 

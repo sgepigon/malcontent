@@ -1,7 +1,6 @@
 (ns malcontent.middleware
   (:require [malcontent.policy  :refer [make-policy load-policy]]
-            [malcontent.browser :refer [select-header]]
-            [ring.adapter.jetty :refer [run-jetty]]))
+            [malcontent.browser :refer [select-header]]))
 
 (defn add-content-security-policy
   ([handler & {:keys [config-path]}]
